@@ -1,1 +1,12 @@
-<p>package works!</p>
+<div class="row">
+    <div class="col-md-3 mb-3" *ngFor="let pkg of packages">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">{{ pkg.name }}</h5>
+          <p class="card-text">{{ pkg.description }}</p>
+          <p class="card-text">Assessments: {{ pkg.assessmentCount }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  

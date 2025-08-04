@@ -1,0 +1,15 @@
+<div *ngIf="showResults && results.length > 0; else noResults">
+    <h3>Assessment Results</h3>
+    <div *ngFor="let result of results" class="result-card">
+      <p><strong>Assessment ID:</strong> {{ result.assessmentId }}</p>
+      <p><strong>Date:</strong> {{ result.attemptDate | date: 'mediumDate' }}</p>
+      <p><strong>Status:</strong> {{ result.completionStatus }}</p>
+      <p><strong>Marks Obtained:</strong> {{ result.totalMarkObtained }}</p>
+      <p><strong>Result:</strong> {{ result.isPassed ? 'Pass' : 'Fail' }}</p>
+    </div>
+  </div>
+  
+  <ng-template #noResults>
+    <p *ngIf="showResults">No results found for this user.</p>
+  </ng-template>
+  

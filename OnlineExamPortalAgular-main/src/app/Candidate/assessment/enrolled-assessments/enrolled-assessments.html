@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-md-4 mb-4" *ngFor="let a of assessments">
+    <div class="card h-100 shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">{{ a.title }}</h5>
+        <p class="card-text"><strong>Duration:</strong> {{ a.duration }} mins</p>
+        <p class="card-text" *ngIf="a.description"><strong>Description:</strong> {{ a.description }}</p>
+
+        <!-- Status Indicator -->
+      <p class="card-text">
+  <strong>Status:</strong>
+  <span *ngIf="completion.length > 0" [ngClass]="getCompletionStatus(a.id) ? 'text-success' : 'text-warning'">
+    {{ getCompletionStatus(a.assessmentId) ? '✅ Completed' : '⏳ Pending' }}
+  </span>
+  <span *ngIf="completion.length === 0" class="text-muted">Loading...</span>
+</p>
+
+
+      <!-- Action Button -->
+<button
+class="btn btn-sm"
+[ngClass]="getCompletionStatus(a.assessmentId) ? 'btn-primary' : 'btn-success'"
+(click)="getCompletionStatus(a.assessmentId) ? viewResult(a.assessmentId) : takeAssessment(a.assessmentId)">
+{{ getCompletionStatus(a.assessmentId) ? 'View Result' : 'Take Assessment' }}
+</button>
+
+        <!-- Result Viewer -->
+<app-assessment-result
+*ngIf="showResult && selectedAssessmentId"
+[userId]="profile.userId">
+</app-assessment-result>
+
+        
+      </div>
+    </div>
+  </div>
+</div>
