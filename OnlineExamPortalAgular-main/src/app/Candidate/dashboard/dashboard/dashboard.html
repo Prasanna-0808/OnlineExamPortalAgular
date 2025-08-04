@@ -1,0 +1,55 @@
+<div class="dashboard-wrapper">
+    <h2>Welcome, {{ profile.name }}</h2>
+  
+    <!-- 👤 Profile Section -->
+    <section class="profile-section">
+      <h3>Your Profile</h3>
+      <p>Email: {{ profile.email }}</p>
+      <p>Name: {{ profile.name }}</p>
+      <p>ID: {{ profile.userId }}</p>
+    </section>
+  
+    <!-- 📋 Assessment Section -->
+    <section class="assessment-section">
+      <h3>Enrolled Assessments</h3>
+      <ul>
+        <li *ngFor="let a of assessments">
+          <strong>{{ a.title }}</strong><br>
+          Status:
+          <span *ngIf="completion.length > 0" [ngClass]="getCompletionStatus(a.assessmentId) ? 'completed' : 'pending'">
+            {{ getCompletionStatus(a.assessmentId) ? '✅ Completed' : '❌ Pending' }}
+          </span>
+          <span *ngIf="completion.length === 0">⏳ Loading...</span>
+  
+          <!-- ✅ NEW BUTTON: Redirect to assessment if not completed -->
+          <button *ngIf="isEnrolled(a.assessmentId)" (click)="takeAssessment(a.assessmentId)">
+            {{ getCompletionStatus(a.assessmentId) ? 'View Result' : 'Take Assessment' }}
+          </button>
+        </li>
+      </ul>
+    </section>
+  
+    <!-- 📦 Packages Section -->
+    <section class="packages-section">
+      <h3>Available Packages</h3>
+      <ul>
+        <li *ngFor="let p of packages">
+          <strong>{{ p.packageName }}</strong>
+          <ul>
+            <li *ngFor="let a of p.assessments">
+              📝 {{ a.assessmentName }} - {{ a.description }}<br>
+  
+              <span *ngIf="isEnrolled(a.assessmentId)" class="enrolled">
+                ✅ Already Enrolled
+              </span>
+  
+              <button *ngIf="!isEnrolled(a.assessmentId)" (click)="enrollAssessment(a.assessmentId)">
+                Enroll
+              </button>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+  </div>
+  

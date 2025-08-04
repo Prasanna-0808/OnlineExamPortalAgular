@@ -1,0 +1,27 @@
+.dashboard-wrapper {
+    padding: 2rem;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  section {
+    margin-bottom: 2rem;
+    background: #f9f9f9;
+    padding: 1rem;
+    border-radius: 8px;
+  }
+  
+  h3 {
+    margin-bottom: 0.5rem;
+    color: #2c3e50;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #ddd;
+  }
+  
