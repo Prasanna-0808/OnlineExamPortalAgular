@@ -54,17 +54,17 @@ export class Login {
  
         switch (role.toLowerCase()) {
           case 'candidate':
-            this.router.navigateByUrl('/refresh').then(() => {
+            this.router.navigateByUrl('/dashboard').then(() => {
               this.router.navigateByUrl('/candidate');
             });
             break;
           case 'instructor':
-            this.router.navigateByUrl('/refresh').then(() => {
+            this.router.navigateByUrl('/dashboard').then(() => {
               this.router.navigateByUrl('/instructor');
             });
             break;
           case 'admin':
-            this.router.navigateByUrl('/refresh').then(() => {
+            this.router.navigateByUrl('/dashboard').then(() => {
               this.router.navigateByUrl('/admin');
             });
             break;
