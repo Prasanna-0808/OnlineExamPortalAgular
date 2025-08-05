@@ -5,9 +5,12 @@ import {
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { LoadQuestionsService } from '../../../services/loadQuestions.service';
+import { ExamAttemptService } from '../../../services/exam-attempt.service';
+import { AssessmentService } from '../../../services/assessment.service';
 
 @Component({
   selector: 'app-assessment',
@@ -35,11 +38,15 @@ export class Assessment implements OnInit {
   private timerInterval: any;
   hasPassed: boolean = false;
 
+  assessmentTitle: string = 'JAVA Basics';
+
   constructor(
-    private http: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private loadService: LoadQuestionsService,
+    private attemptService: ExamAttemptService,
+    private assessmentService: AssessmentService
   ) {}
 
   ngOnInit(): void {
@@ -49,8 +56,7 @@ export class Assessment implements OnInit {
   }
 
   fetchAssignmentDetails(): void {
-    const url = `https://localhost:7201/api/AssessmentAssignment/user/${this.userId}`;
-    this.http.get<any[]>(url).subscribe({
+    this.assessmentService.getAssignmentDetails(this.userId).subscribe({
       next: (assignments: any[]) => {
         const match = assignments.find((a: any) => a.assessmentId === Number(this.assessmentId));
         if (match) {
@@ -66,33 +72,24 @@ export class Assessment implements OnInit {
   }
 
   checkPreviousAttempt(): void {
-    const url = `https://localhost:7201/api/ExamAttempt/user/${this.userId}/assessment/${this.assessmentId}`;
-    this.http.get<any>(url).subscribe({
+    this.attemptService.getPreviousAttempt(this.userId, this.assessmentId).subscribe({
       next: (attempt: any) => {
-        if (attempt && attempt.isPassed) {
+        if (attempt?.isPassed) {
           alert('You have already passed this assessment. Retake is not allowed.');
           this.router.navigate(['/result'], { queryParams: { userId: this.userId } });
-        } else if (attempt && !attempt.isPassed) {
-          this.deletePreviousAttempt(attempt.attemptId);
+        } else if (attempt) {
+          this.attemptService.deleteAttempt(attempt.attemptId).subscribe({
+            next: () => this.createExamAttempt(),
+            error: (err: any) => console.error('Failed to delete previous attempt', err)
+          });
         } else {
           this.createExamAttempt();
         }
       },
-      error: (err: any) => {
+      error: () => {
         console.warn('No previous attempt found, creating new one');
         this.createExamAttempt();
       }
-    });
-  }
-
-  deletePreviousAttempt(attemptId: number): void {
-    const url = `https://localhost:7201/api/ExamAttempt/${attemptId}`;
-    this.http.delete(url).subscribe({
-      next: () => {
-        console.log('Previous attempt deleted');
-        this.createExamAttempt();
-      },
-      error: (err: any) => console.error('Failed to delete previous attempt', err)
     });
   }
 
@@ -103,7 +100,7 @@ export class Assessment implements OnInit {
       assignmentId: this.assignmentId
     };
 
-    this.http.post<any>('https://localhost:7201/api/ExamAttempt/create-attempt', payload).subscribe({
+    this.attemptService.createAttempt(payload).subscribe({
       next: (res: any) => {
         this.attemptId = res.attemptId ?? 0;
         this.loadAssessmentAndQuestions();
@@ -115,31 +112,17 @@ export class Assessment implements OnInit {
   loadAssessmentAndQuestions(): void {
     this.loading = true;
 
-    this.http.get<any>(`https://localhost:7201/api/Assessment/${this.assessmentId}`).subscribe({
-      next: (assessmentArray: any) => {
-        const assessment = Array.isArray(assessmentArray) ? assessmentArray[0] : assessmentArray;
-        this.passMark = assessment.passMark ?? 0;
-        this.totalMark = assessment.maxMark ?? 0;
-        this.timerSeconds = typeof assessment.duration === 'number' && assessment.duration > 0 ? assessment.duration : 900;
+    this.loadService.loadAssessmentAndQuestions(this.assessmentId).subscribe({
+      next: ({ passMark, totalMark, timerSeconds, questions }) => {
+        this.passMark = passMark;
+        this.totalMark = totalMark;
+        this.timerSeconds = timerSeconds;
+        this.questions = questions;
         this.cdr.detectChanges();
-
-        this.http.get<any[]>(`https://localhost:7201/api/Assessment/${this.assessmentId}/questions`).subscribe({
-          next: (questions: any[]) => {
-            this.questions = questions.map((q: any) => ({
-              ...q,
-              selectedOptionId: null
-            }));
-            this.startTimer();
-            this.loading = false;
-          },
-          error: (err: any) => {
-            console.error('Failed to load questions', err);
-            this.loading = false;
-          }
-        });
+        this.startTimer();
+        this.loading = false;
       },
-      error: (err: any) => {
-        console.error('Failed to load assessment details', err);
+      error: () => {
         this.loading = false;
       }
     });
@@ -165,6 +148,7 @@ export class Assessment implements OnInit {
     const sec = this.timerSeconds % 60;
     this.timerDisplay = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
   }
+
   submitAnswer(): void {
     if (this.completed) return;
 
@@ -181,7 +165,7 @@ export class Assessment implements OnInit {
       optionId: currentQuestion.selectedOptionId
     };
 
-    this.http.post<any>('https://localhost:7201/api/response', dto).subscribe({
+    this.assessmentService.submitAnswer(dto).subscribe({
       next: () => {
         this.currentIndex++;
         if (this.currentIndex >= this.questions.length) {
@@ -199,15 +183,11 @@ export class Assessment implements OnInit {
   completeAssessment(): void {
     this.completed = true;
 
-    const url = `https://localhost:7201/api/Assessment/${this.assessmentId}/user/${this.userId}/obtainedmark`;
-    this.http.get<any>(url).subscribe({
+    this.assessmentService.getObtainedMark(this.assessmentId, this.userId).subscribe({
       next: (res: any) => {
         this.obtainedMark = res.obtainedMark ?? 0;
         this.hasPassed = this.passMark > 0 && this.obtainedMark >= this.passMark;
         this.updateExamAttemptStatus();
-        if (this.hasPassed) {
-          this.updateAssessmentStatus();
-        }
         this.cdr.detectChanges();
       },
       error: (err: any) => {
@@ -220,41 +200,11 @@ export class Assessment implements OnInit {
   }
 
   updateExamAttemptStatus(): void {
-    const payload = {
-      //attemptId: this.attemptId,
-      userId: this.userId,
-      assessmentId: Number(this.assessmentId),
-      //attemptDate: new Date().toISOString(),
-      //completionStatus: 'Completed',
-      //totalMarkObtained: this.obtainedMark,
-      //isPassed: this.hasPassed
-    };
-
-    const url = `https://localhost:7201/api/ExamAttempt/update-status?userId=${this.userId}&assessmentId=${this.assessmentId}`;
-    this.http.post(url, payload).subscribe({
+    const payload = {}; // Extend if needed
+    this.attemptService.updateAttemptStatus(this.userId, this.assessmentId, payload).subscribe({
       next: () => console.log('Exam attempt updated'),
       error: (err: any) => console.error('Failed to update exam attempt', err)
     });
-  }
-
-  updateAssessmentStatus(): void {
-    const url = `https://localhost:7201/api/AssessmentStatus/user/${this.userId}/assessment/${this.assessmentId}`;
-    const payload = { status: 'Completed' };
-
-    this.http.put(url, payload).subscribe({
-      next: () => console.log('Assessment status updated to Completed'),
-      error: (err: any) => console.error('Failed to update assessment status', err)
-    });
-  }
-
-  goToResult(): void {
-    this.router.navigate(['/result'], {
-      queryParams: { userId: this.userId }
-    });
-  }
-
-  get isTimeCritical(): boolean {
-    return this.timerSeconds <= 60;
   }
 
   retakeAssessment(): void {
@@ -263,12 +213,11 @@ export class Assessment implements OnInit {
       return;
     }
 
-    const url = `https://localhost:7201/api/response/user/${this.userId}/assessment/${this.assessmentId}`;
-    this.http.delete(url).subscribe({
+    this.assessmentService.deletePreviousResponses(this.userId, this.assessmentId).subscribe({
       next: () => {
         console.log('Previous responses deleted. Retaking assessment...');
         this.resetState();
-        this.fetchAssignmentDetails(); // Restart flow
+        this.fetchAssignmentDetails();
       },
       error: (err: any) => {
         console.error('Failed to delete previous responses', err);
@@ -304,7 +253,18 @@ export class Assessment implements OnInit {
     this.currentIndex = index;
   }
 
-  assessmentTitle: string = 'JAVA Basics';
+  goToResult(): void {
+    this.router.navigate(['/result'], {
+      queryParams: { userId: this.userId,assessmentId:this.assessmentId }
+      
+    });
+    console.log('Navigating to result with:', this.userId, this.assessmentId);
+
+  }
+
+  get isTimeCritical(): boolean {
+    return this.timerSeconds <= 60;
+  }
 
   saveAnswer(question: any): void {
     console.log('Auto-saving answer for question:', question.questionId, 'Selected:', question.selectedOptionId);

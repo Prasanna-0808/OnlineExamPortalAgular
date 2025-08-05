@@ -1,16 +1,14 @@
-
+// src/app/components/enrolled-assessments/enrolled-assessments.component.ts
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { RouterModule, Router } from '@angular/router';
-
-import { AssessmentResultComponent } from '../assessment-result/assessment-result';
-
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { AssessmentService } from '../../../services/assessment.service';
+import { AssessmentResultComponent } from '../assessment-result/assessment-result';
 
 @Component({
   selector: 'app-enrolled-assessments',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, RouterModule,AssessmentResultComponent],
+  imports: [CommonModule, RouterModule, AssessmentResultComponent],
   templateUrl: './enrolled-assessments.html',
   styleUrls: ['./enrolled-assessments.css']
 })
@@ -24,16 +22,19 @@ export class EnrolledAssessmentsComponent implements OnInit {
   @Output() take = new EventEmitter<number>();
 
   selectedAssessmentId: number | null = null;
-showResult: boolean = false;
+  showResult: boolean = false;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private router: Router,
+    private assessmentService: AssessmentService
+  ) {}
 
   ngOnInit(): void {
     this.loadProfile();
-  } 
+  }
 
   loadProfile(): void {
-    this.http.get<any>(`https://localhost:7201/api/User/GetUser${this.email}`).subscribe({
+    this.assessmentService.getUserProfile(this.email).subscribe({
       next: (res) => {
         this.profile = res;
         this.loadAssessments();
@@ -42,27 +43,26 @@ showResult: boolean = false;
       error: (err) => console.error('Profile load failed', err)
     });
   }
+
   loadAssessments(): void {
-    this.http.get<any[]>(`https://localhost:7201/api/Assessment/assigned/user/${this.profile.userId}`).subscribe({
+    this.assessmentService.getAssignedAssessments(this.profile.userId).subscribe({
       next: (res) => {
-        console.log('Assessments:', res); // 👈 Check field names
+        console.log('Assessments:', res);
         this.assessments = res;
       },
       error: (err) => console.error('Assessments load failed', err)
     });
   }
-  
 
   loadCompletionStatus(): void {
-    this.http.get<any[]>(`https://localhost:7201/api/AssessmentAssignment/user/${this.profile.userId}`).subscribe({
+    this.assessmentService.getAssignmentDetails(this.profile.userId).subscribe({
       next: (res) => {
-        console.log('Completion status:', res); // 👈 Check field names and values
+        console.log('Completion status:', res);
         this.completion = res;
       },
       error: (err) => console.error('Completion status load failed', err)
     });
   }
-  
 
   isEnrolled(assessmentId: number): boolean {
     return this.completion.some(c =>
@@ -78,10 +78,9 @@ showResult: boolean = false;
     );
     return match?.isCompleted === true;
   }
-  
+
   enrollAssessment(assessmentId: number): void {
-    const url = `https://localhost:7201/api/AssessmentAssignment/enroll?userId=${this.profile.userId}&assessmentId=${assessmentId}`;
-    this.http.post(url, null).subscribe({
+    this.assessmentService.enrollUserToAssessment(this.profile.userId, assessmentId).subscribe({
       next: () => {
         alert('Enrollment successful!');
         this.loadCompletionStatus();
@@ -93,19 +92,6 @@ showResult: boolean = false;
     });
   }
 
-  // takeAssessment(assessmentId: number): void {
-  //   const isCompleted = this.getCompletionStatus(assessmentId);
-  //   console.log('Clicked assessment:', assessmentId, 'Completed:', isCompleted);
-  //   if (!isCompleted) {
-  //     this.router.navigate(['/assessment', assessmentId]).then(success => {
-  //       console.log('Navigation success:', success);
-  //     });
-  //   } else {
-  //     alert('You have already completed this assessment.');
-  //   }
-  // }
-
-
   takeAssessment(assessmentId: number): void {
     this.showResult = false;
     const isCompleted = this.getCompletionStatus(assessmentId);
@@ -115,12 +101,20 @@ showResult: boolean = false;
       alert('You have already completed this assessment.');
     }
   }
-  
 
   viewResult(assessmentId: number): void {
-    this.selectedAssessmentId = assessmentId;
-    this.showResult = true;
+    if (!this.profile?.userId || !assessmentId) {
+      console.warn('Missing userId or assessmentId');
+      return;
+    }
+
+    this.router.navigate(['/result'], {
+      queryParams: {
+        userId: this.profile.userId,
+        assessmentId: assessmentId
+      }
+    });
   }
-  
-  
+
+  image="./assets/Man.png";
 }

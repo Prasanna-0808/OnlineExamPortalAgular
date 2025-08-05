@@ -1,7 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+// src/app/components/assessment-result/assessment-result.component.ts
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { ExamAttemptService } from '../../../services/exam-attempt.service';
 
 @Component({
   selector: 'app-assessment-result',
@@ -11,26 +13,34 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./assessment-result.css']
 })
 export class AssessmentResultComponent implements OnInit {
-  @Input() userId!: number;
-  @Input() assessmentId!: number;
+  userId!: number;
+  assessmentId!: number;
 
   results: any[] = [];
   showResults: boolean = false;
   loading: boolean = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private examAttemptService: ExamAttemptService
+  ) {}
 
   ngOnInit(): void {
+    this.userId = Number(this.route.snapshot.queryParamMap.get('userId')) || 0;
+    this.assessmentId = Number(this.route.snapshot.queryParamMap.get('assessmentId')) || 0;
+
+    console.log('Query Params:', this.userId, this.assessmentId);
+
     if (!this.userId || !this.assessmentId) {
-      console.warn('Missing userId or assessmentId');
+      console.warn('Missing query params');
       return;
     }
 
     this.loading = true;
 
-    this.http.get<any[]>(`https://localhost:7201/api/ExamAttempt/ExamAttempted`).subscribe({
+    this.examAttemptService.getAllAttempts().subscribe({
       next: (res) => {
-        // Filter results by userId and assessmentId
         this.results = res.filter(r =>
           String(r.userId) === String(this.userId) &&
           String(r.assessmentId) === String(this.assessmentId)
