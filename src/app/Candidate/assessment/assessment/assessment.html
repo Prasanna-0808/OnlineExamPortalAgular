@@ -1,0 +1,27 @@
+<form (ngSubmit)="submitAnswers()">
+  <div *ngFor="let q of questions; trackBy: trackByQuestionId" class="question-block">
+    <p class="question-text">
+      {{ q.questionText }} <span class="mark">({{ q.mark }} marks)</span>
+    </p>
+
+    <div *ngFor="let opt of q.options; trackBy: trackByOption" class="option-block">
+      <label>
+        <input
+          type="radio"
+          name="question-{{ q.questionId }}"
+          [value]="opt.optionId"
+          [(ngModel)]="q.selectedOptionId"
+          required
+        />
+        {{ opt.optionsText }}
+      </label>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="!allAnswered()" class="submit-btn">
+    Submit Assessment
+  </button>
+</form>
+
+
+

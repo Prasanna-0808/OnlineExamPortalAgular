@@ -1,0 +1,54 @@
+.home-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to right, #ece9e6, #ffffff);
+  }
+  
+  .home-card {
+    text-align: center;
+    padding: 2rem 3rem;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .home-card h1 {
+    margin-bottom: 0.5rem;
+    color: #2c3e50;
+  }
+  
+  .home-card p {
+    margin-bottom: 1.5rem;
+    color: #555;
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .btn {
+    padding: 0.75rem 1.5rem;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn:hover {
+    background-color: #2980b9;
+  }
+  
+  .btn.secondary {
+    background-color: #2ecc71;
+  }
+  
+  .btn.secondary:hover {
+    background-color: #27ae60;
+  }
+  

@@ -1,0 +1,30 @@
+<div class="body">
+  <div class="container">
+    <div class="image-section">
+      <img [src]="image1" alt="Educational Graphics" />
+    </div>
+    <div class="form-section">
+      <h2>Register</h2>
+        <form (ngSubmit)="postMethod()">
+          <label>Name:</label>
+          <input type="text" [(ngModel)]="name" name="name" required />
+        
+          <label>Email:</label>
+          <input type="email" [(ngModel)]="email" name="email" required />
+        
+          <label>Password:</label>
+          <input type="password" [(ngModel)]="password" name="password" required />
+        
+          <label>Role:</label>
+          <select [(ngModel)]="roleType" name="roleType">
+            <option value="0">Candidate</option>
+            <option value="1">Admin</option>
+          </select>
+        
+          <button type="submit" class="submit-btn">Register</button>
+        </form>
+              
+      <a routerLink="/login" class="login-link">Already have an account? <strong>Login</strong></a>
+    </div>
+  </div>
+</div>

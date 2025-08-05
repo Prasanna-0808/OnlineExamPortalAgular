@@ -1,0 +1,152 @@
+<!-- <div class="row">
+    <div class="col-md-3 mb-3" *ngFor="let pkg of packages">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">{{ pkg.name }}</h5>
+          <p class="card-text">{{ pkg.description }}</p>
+          <p class="card-text">Assessments: {{ pkg.assessmentCount }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+   -->
+
+   <!-- <div class="row">
+    <div class="col-md-3 mb-3" *ngFor="let pkg of packages">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">{{ pkg.name }}</h5>
+          <p class="card-text">{{ pkg.description }}</p>
+          <p class="card-text">Assessments: {{ pkg.assessmentCount }}</p>
+          <p class="card-text">
+            Status:
+            <span *ngIf="pkg.isEnrolled; else notEnrolled">✅ Enrolled</span>
+            <ng-template #notEnrolled>❌ Not Enrolled</ng-template>
+          </p>
+          <button class="btn btn-primary" (click)="requestPackage(pkg.id)" [disabled]="pkg.isEnrolled">
+            Request Package
+          </button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- <h3>📦 All Packages</h3>
+<div class="row">
+  <div class="col-md-3 mb-3" *ngFor="let pkg of packages">
+    <div class="card h-100">
+      <div class="card-body">
+        <h5 class="card-title">{{ pkg.name }}</h5>
+        <p class="card-text">{{ pkg.description }}</p>
+        <p class="card-text">Assessments: {{ pkg.assessmentCount }}</p>
+        <p class="card-text">
+          Status:
+          <span *ngIf="pkg.isEnrolled; else notEnrolled">✅ Enrolled</span>
+          <ng-template #notEnrolled>❌ Not Enrolled</ng-template>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+    <hr />
+  
+    <h3>📝 Enrollable Packages</h3>
+<div class="row">
+  <div class="col-md-3 mb-3" *ngFor="let pkg of enrollablePackages">
+    <div class="card h-100 border-success">
+      <div class="card-body">
+        <h5 class="card-title">{{ pkg.name }}</h5>
+        <p class="card-text">{{ pkg.description }}</p>
+        <p class="card-text">Assessments: {{ pkg.assessmentCount }}</p>
+        <button class="btn btn-success" (click)="requestPackage(pkg.id)">
+          Request Package
+        </button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- <div class="container mt-4">
+  <h3>Select a Package</h3>
+  <select class="form-select mb-3" [(ngModel)]="selectedPackageName" (change)="onPackageSelect()">
+    <option value="" disabled selected>Select Package</option>
+    <option *ngFor="let pkg of packages" [value]="pkg.packageName">
+      {{ pkg.packageName }}
+    </option>
+  </select>
+
+  <div *ngIf="assessmentsInPackage.length > 0">
+    <h4>Assessments in "{{ selectedPackageName }}"</h4>
+    <div class="row">
+      <div class="col-md-4 mb-3" *ngFor="let assessment of assessmentsInPackage">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">{{ assessment.title }}</h5>
+            <p class="card-text">{{ assessment.description }}</p>
+            <p class="card-text">Max Marks: {{ assessment.maxMark }}</p>
+            <p class="card-text">Pass Marks: {{ assessment.passMark }}</p>
+            <button class="btn btn-primary" (click)="requestAssessment(assessment.assessmentId)">
+              Request Assessment
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="selectedPackageName && assessmentsInPackage.length === 0">
+    <p>No assessments found for this package.</p>
+  </div>
+</div> -->
+
+
+<div class="container mt-4">
+  <!-- Package Selection -->
+  <h3>Select a Package</h3>
+  <select class="form-select mb-3" [(ngModel)]="selectedPackageName" (change)="onPackageSelect()">
+    <option value="" disabled selected>Select Package</option>
+    <option *ngFor="let pkg of packages" [value]="pkg.packageName">
+      {{ pkg.packageName }}
+    </option>
+  </select>
+
+  <!-- Assessments Display -->
+  <div *ngIf="assessmentsInPackage.length > 0">
+    <h4>Assessments in "{{ selectedPackageName }}"</h4>
+    <div class="row">
+      <div class="col-md-4 mb-3" *ngFor="let assessment of assessmentsInPackage">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">{{ assessment.title }}</h5>
+            <p class="card-text">{{ assessment.description }}</p>
+            <p class="card-text">Max Marks: {{ assessment.maxMark }}</p>
+            <p class="card-text">Pass Marks: {{ assessment.passMark }}</p>
+
+            <!-- Request Button -->
+            <button class="btn btn-primary"
+                    [disabled]="hasRequestedPackage()"
+                    (click)="requestAssessment(assessment.assessmentId)">
+              Request Assessment
+            </button>
+
+            <!-- Warning Message -->
+            <div *ngIf="hasRequestedPackage()" class="text-warning mt-2">
+              You have already requested this package.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Assessments Found -->
+  <div *ngIf="selectedPackageName && assessmentsInPackage.length === 0">
+    <p>No assessments found for this package.</p>
+  </div>
+</div>
+
+
+  
+  

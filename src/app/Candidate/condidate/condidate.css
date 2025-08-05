@@ -1,0 +1,30 @@
+
+body {
+    margin: 0;
+    padding: 0;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 12%; /* 2 out of 12 columns = 2/12 = 16.6667% */
+    height: 100vh;
+    background-color: #00BFFF;
+    padding: 20px;
+    color: white;
+    overflow-y: auto;
+  }
+
+  .sidebar .nav-link {
+    color: white;
+  }
+
+  .sidebar .nav-link:hover {
+    background-color: black;
+  }
+
+  .main-content {
+    margin-left: 16.6667%;
+    padding: 20px;
+  }
