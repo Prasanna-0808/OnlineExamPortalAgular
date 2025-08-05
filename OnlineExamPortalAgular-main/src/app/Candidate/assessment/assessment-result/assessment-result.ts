@@ -1,16 +1,19 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-assessment-result',
   standalone: true,
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule, HttpClientModule, RouterModule],
   templateUrl: './assessment-result.html',
   styleUrls: ['./assessment-result.css']
 })
 export class AssessmentResultComponent implements OnInit {
   @Input() userId!: number;
+  @Input() assessmentId!: number;
+
   results: any[] = [];
   showResults: boolean = false;
   loading: boolean = false;
@@ -18,17 +21,20 @@ export class AssessmentResultComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    if (!this.userId) return;
+    if (!this.userId || !this.assessmentId) {
+      console.warn('Missing userId or assessmentId');
+      return;
+    }
 
     this.loading = true;
 
-    this.http.get<any>(`https://localhost:7201/api/ExamAttempt/${this.userId}`).subscribe({
+    this.http.get<any[]>(`https://localhost:7201/api/ExamAttempt/ExamAttempted`).subscribe({
       next: (res) => {
-        console.log('API response:', res);
-
-        // Wrap single object in array if needed
-        this.results = Array.isArray(res) ? res : [res];
-
+        // Filter results by userId and assessmentId
+        this.results = res.filter(r =>
+          String(r.userId) === String(this.userId) &&
+          String(r.assessmentId) === String(this.assessmentId)
+        );
         this.showResults = true;
         this.loading = false;
       },

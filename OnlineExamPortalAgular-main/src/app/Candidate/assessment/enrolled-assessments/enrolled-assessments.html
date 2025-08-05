@@ -26,9 +26,11 @@ class="btn btn-sm"
 
         <!-- Result Viewer -->
 <app-assessment-result
-*ngIf="showResult && selectedAssessmentId"
-[userId]="profile.userId">
+  *ngIf="showResult && selectedAssessmentId"
+  [userId]="profile.userId"
+  [assessmentId]="selectedAssessmentId">
 </app-assessment-result>
+
 
         
       </div>

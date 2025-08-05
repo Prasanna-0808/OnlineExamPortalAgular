@@ -7,6 +7,7 @@ import { Register } from "./Register/register/register";
 import { Dashboard } from "./Candidate/dashboard/dashboard/dashboard";
 import { Condidate } from "./Candidate/condidate/condidate";
 import { DummyRefreshComponent } from "./Candidate/dashboard/dashboard/refresherdummy";
+import { Assessment } from "./Candidate/assessment/assessment/assessment";
 
 
 
@@ -42,7 +43,10 @@ export const routes: Routes = [
     path: 'dashboard',
     loadComponent: () => import('./Candidate/dashboard/dashboard/dashboard').then(m => m.Dashboard)
   },
-  { path: 'refresh', component: DummyRefreshComponent }
+  { path: 'refresh', component: DummyRefreshComponent },
+
+  { path: 'result', loadComponent: () => import('./Candidate/assessment/assessment-result/assessment-result').then(m => m.AssessmentResultComponent) }
+
 
   
 ];

@@ -30,7 +30,7 @@ showResult: boolean = false;
 
   ngOnInit(): void {
     this.loadProfile();
-  }
+  } 
 
   loadProfile(): void {
     this.http.get<any>(`https://localhost:7201/api/User/GetUser${this.email}`).subscribe({

@@ -1,27 +1,91 @@
-<form (ngSubmit)="submitAnswers()">
-  <div *ngFor="let q of questions; trackBy: trackByQuestionId" class="question-block">
-    <p class="question-text">
-      {{ q.questionText }} <span class="mark">({{ q.mark }} marks)</span>
-    </p>
+<!-- <div *ngIf="loading">Loading questions...</div>
 
-    <div *ngFor="let opt of q.options; trackBy: trackByOption" class="option-block">
+<div *ngIf="!loading && !completed && questions.length > 0">
+  <div class="question-card">
+    <h4>Question {{ currentIndex + 1 }} of {{ questions.length }}</h4>
+    <p>{{ questions[currentIndex].questionText }}</p>
+
+    <div *ngFor="let option of questions[currentIndex].options">
       <label>
         <input
           type="radio"
-          name="question-{{ q.questionId }}"
-          [value]="opt.optionId"
-          [(ngModel)]="q.selectedOptionId"
-          required
+          name="option"
+          [value]="option.optionId"
+          [(ngModel)]="questions[currentIndex].selectedOptionId"
         />
-        {{ opt.optionsText }}
+        {{ option.optionsText }}
       </label>
     </div>
+
+    <button class="btn btn-primary mt-3" (click)="submitAnswer()">Submit & Next</button>
+  </div>
+</div>
+<div *ngIf="completed">
+  <p>✅ Assessment completed!</p>
+
+  <div *ngIf="obtainedMark !== null">
+    <h4 class="text-success">Your Score: {{ obtainedMark }} marks</h4>
   </div>
 
-  <button type="submit" [disabled]="!allAnswered()" class="submit-btn">
-    Submit Assessment
-  </button>
-</form>
+  <button class="btn btn-success mt-2" (click)="goToResult()">View Detailed Result</button>
+</div>
 
 
+ -->
+
+ <div class="container mt-4">
+  <h2 class="mb-3">Assessment</h2>
+
+  <div *ngIf="loading" class="text-center">
+    <p>Loading questions...</p>
+  </div>
+
+  <div *ngIf="!loading && !completed">
+    <div class="d-flex justify-content-between mb-2">
+      <span>Question {{ currentIndex + 1 }} of {{ questions.length }}</span>
+      <span [class.text-danger]="isTimeCritical">⏱️ {{ timerDisplay }}</span>
+    </div>
+
+    <div *ngIf="questions[currentIndex] as q">
+      <h5>{{ q.questionText }}</h5>
+      <div *ngFor="let opt of q.options">
+        <label>
+          <input type="radio" name="option" [value]="opt.optionId" [(ngModel)]="q.selectedOptionId" />
+          {{ opt.optionsText }}
+        </label>
+      </div>
+    </div>
+
+    <button class="btn btn-primary mt-3" (click)="submitAnswer()">Submit Answer</button>
+  </div>
+
+  <div *ngIf="completed" class="text-center mt-4">
+    <h4 class="text-success">✅ Assessment Completed</h4>
+    <p>Your Score: {{ obtainedMark }} / {{ totalMark }}</p>
+  
+    <button class="btn btn-success" (click)="goToResult()">View Result</button>
+  
+    <!-- <div *ngIf="!hasPassed" class="mt-3">
+      <p class="text-danger">You did not pass. You may retake the assessment.</p>
+      <button class="btn btn-outline-secondary" (click)="retakeAssessment()">Retake Assessment</button>
+    </div>
+    
+  
+    <div *ngIf="!hasPassed" class="mt-3">
+      <p class="text-danger">You did not pass. You may retake the assessment.</p>
+      <button class="btn btn-outline-secondary" (click)="retakeAssessment()">Retake Assessment</button>
+    </div>
+  </div>
+ -->
+
+
+</div>
+
+
+<!-- <div class="debug-panel">
+  <p>Obtained Mark: {{ obtainedMark }}</p>
+  <p>Pass Mark: {{ passMark }}</p>
+  <p>Total Mark: {{ totalMark }}</p>
+  <p>Has Passed: {{ hasPassed }}</p>
+</div> -->
 

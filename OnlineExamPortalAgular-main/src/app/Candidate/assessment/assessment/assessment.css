@@ -1,4 +1,4 @@
-.question-block {
+/* .question-block {
     margin-bottom: 24px;
     padding: 12px;
     border-bottom: 1px solid #ccc;
@@ -17,5 +17,25 @@
   .submit-btn {
     margin-top: 30px;
     padding: 10px 20px;
+  }
+   */
+
+   .question-card {
+    margin-bottom: 24px;
+    padding: 16px;
+    background-color: #f8f9fa;
+  }
+  
+  .question-text {
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  
+  .option-block {
+    margin-bottom: 10px;
+  }
+  
+  .submit-btn {
+    margin-top: 20px;
   }
   
