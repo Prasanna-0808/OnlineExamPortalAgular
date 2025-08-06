@@ -3,8 +3,11 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
+<<<<<<< HEAD
 import { Auth } from '../../services/auth';
  
+=======
+>>>>>>> b4f03c60a3cd563dd33cd86ab8c08bcc1d647c39
  
 @Component({
   selector: 'app-login',
@@ -78,6 +81,7 @@ export class Login implements OnInit{
             const normalizedRole = role.toLowerCase();
             switch (normalizedRole) {
               case 'candidate':
+<<<<<<< HEAD
                
                   this.router.navigateByUrl('/dashboard');
              
@@ -98,6 +102,28 @@ export class Login implements OnInit{
                
                   this.router.navigateByUrl('/dashboard');
                 break;
+=======
+                
+                  this.router.navigateByUrl('/dashboard');
+              
+                 
+                
+                break;
+              case 'instructor':
+                
+                  this.router.navigateByUrl('/instructor');
+                
+                break;
+              case 'admin':
+                this.router.navigateByUrl('/refresh').then(() => {
+                  this.router.navigateByUrl('/admin');
+                });
+                break;
+              default:
+                this.router.navigateByUrl('/refresh').then(() => {
+                  this.router.navigateByUrl('/dashboard');
+                });
+>>>>>>> b4f03c60a3cd563dd33cd86ab8c08bcc1d647c39
             }
           },
           error: (err) => {
@@ -113,5 +139,8 @@ export class Login implements OnInit{
     });
   }
 }
+<<<<<<< HEAD
  
+=======
+>>>>>>> b4f03c60a3cd563dd33cd86ab8c08bcc1d647c39
  
