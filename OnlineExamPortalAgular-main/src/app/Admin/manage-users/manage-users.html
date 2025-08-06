@@ -1,0 +1,19 @@
+<div class="manage-users-container">
+    <h2>Manage Users</h2>
+ 
+    <ul *ngIf="users.length > 0; else noUsers">
+      <li *ngFor="let user of users">
+        <div class="user-info">
+         
+          <strong>User name:</strong> {{ user.name }}<br />
+          <strong>Email:</strong> {{ user.email }}  
+        </div>
+        <button (click)="confirmDelete(user.email)">Remove</button>
+      </li>
+    </ul>
+ 
+    <ng-template #noUsers>
+      <p>No users found.</p>
+    </ng-template>
+  </div>
+ 

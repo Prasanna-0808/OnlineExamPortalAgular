@@ -1,0 +1,29 @@
+<main class="main-content">
+    <div class="dashboard-wrapper">
+      <header class="header">
+        <div>
+          <h2>Dashboard</h2>
+          <p>Welcome back, Admin</p>
+        </div>
+        <div class="sort-dropdown">
+          <label for="sort">Sort:</label>
+          <select id="sort">
+            <option>Last Week</option>
+            <option>This Month</option>
+            <option>All Time</option>
+          </select>
+        </div>
+      </header>
+ 
+      <section class="cards-section">
+        <div class="card">
+          <h3>Total Users</h3>
+          <p>{{ totalUsers }}</p>
+        </div>
+        <div class="card">
+          <h3>Assessments</h3>
+          <p>{{ totalAssessments }}</p>
+        </div>
+      </section>
+    </div>
+  </main>

@@ -25,4 +25,5 @@ export class ProfileComponent implements OnInit {
       error: (err) => console.error('Profile load failed', err)
     });
   }
+  
 }

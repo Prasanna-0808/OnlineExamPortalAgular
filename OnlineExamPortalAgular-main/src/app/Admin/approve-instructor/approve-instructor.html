@@ -1,0 +1,29 @@
+<div class="container">
+    <h2>Instructor Approval Requests</h2>
+   
+    <div class="actions">
+      <button routerLink="/approveInstructor" class="view-btn">View Instructor Requests</button>
+    </div>
+   
+    <table class="approval-table">
+      <thead>
+        <tr>
+          <th>User ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let instructor of instructorRequests">
+          <td>{{ instructor.userId }}</td>
+          <td>{{ instructor.name }}</td>
+          <td>{{ instructor.email }}</td>
+          <td>
+            <button class="btn approve" (click)="approveInstructor(instructor.userId)">Approve</button>
+            <button class="btn reject" (click)="rejectInstructor(instructor.userId)">Reject</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

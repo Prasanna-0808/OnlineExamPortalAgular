@@ -3,7 +3,7 @@
     <!-- Sidebar -->
     <nav class="col-md-3 col-lg-2 d-md-block sidebar text-white p-4 shadow-sm"
     style="background: linear-gradient(135deg, #0d6efd, #0a58ca); min-height: 100vh;">
- <h4 class="text-center mb-4 fw-bold">📚 Dashboard</h4>
+ <h4 class="text-center mb-4 fw-bold">Candidate Dashboard</h4>
  <ul class="nav flex-column">
    <li class="nav-item mb-3">
      <a class="nav-link text-white fw-semibold" href="#">
@@ -20,6 +20,9 @@
        <i class="bi bi-box-seam me-2"></i> Study Packages
      </a>
    </li>
+   <li class="nav-item mb-3">
+    <button (click)="OnLogout()" class="btn btn-danger text-white fw-semibold">Logout</button>
+  </li>
  </ul>
 </nav>
 
@@ -28,7 +31,7 @@
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-5 py-4 bg-light">
       <!-- Greeting -->
       <div class="mb-4">
-        <h3 class="text-dark fw-bold">👋 Hey! James Smith</h3>
+        <h3 class="text-dark fw-bold">👋 Hey! </h3>
         <p class="text-muted">Good luck for the exam today.</p>
       </div>
 

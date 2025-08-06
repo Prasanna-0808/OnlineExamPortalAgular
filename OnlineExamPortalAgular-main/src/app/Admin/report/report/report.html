@@ -1,1 +1,28 @@
-<p>report works!</p>
+<div class="report-container">
+    <h2>Candidate Assessment Report</h2>
+ 
+    <table *ngIf="candidates.length > 0; else noData">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Assessment Date</th>
+          <th>Score</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let candidate of candidates">
+          <td>{{ candidate.name }}</td>
+          <td>{{ candidate.email }}</td>
+          <td>{{ candidate.assessmentDate }}</td>
+          <td>{{ candidate.score }}</td>
+          <td>{{ candidate.status }}</td>
+        </tr>
+      </tbody>
+    </table>
+ 
+    <ng-template #noData>
+      <p>No candidates found.</p>
+    </ng-template>
+  </div>

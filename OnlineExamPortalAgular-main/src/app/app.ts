@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Condidate } from "./Candidate/candidate/condidate";
+import { Condidate } from "./Candidate/candidate/candidate";
 import { Register } from './Register/register/register';
 import { ReactiveFormsModule } from '@angular/forms';
 import {  HttpClientModule } from '@angular/common/http';

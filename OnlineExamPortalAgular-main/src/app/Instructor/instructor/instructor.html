@@ -1,39 +1,56 @@
-<!-- Instructor navbar start -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Instructor</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-          </li>
-        </ul>
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Instructor navbar end -->
+<!-- Sidebar Container -->
+<div class="d-lg-block sidebar bg-primary text-white p-3" style="width: 250px; height: 100vh;">
+  <h4 class="mb-3">Welcome {{name}}</h4>
+ 
+  <!-- Toggle Button (visible only on small screens) -->
+  <button class="navbar-toggler d-lg-none mb-3" type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#sidebarLinks"
+          aria-controls="sidebarLinks"
+          aria-expanded="false"
+          aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon bg-light"></span>
+  </button>
+ 
+  <!-- Message for small screens -->
+  <div class="d-lg-none text-warning mb-3">
+    <strong>This page is not compatible with mobile view. Please use a desktop.</strong>
+  </div>
+ 
+  <!-- Sidebar Links -->
+  <div class="collapse d-lg-block" id="sidebarLinks">
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link text-white active" routerLink="/i-dashboard">Dashboard</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" routerLink="/instructor-profile">Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" data-bs-toggle="collapse" href="#servicesMenu" role="button" aria-expanded="false" aria-controls="servicesMenu" routerLink="/instructor-assessment">
+           Assessment
+        </a>
+        <div class="collapse" id="servicesMenu">
+          <ul class="nav flex-column ms-3">
+            <li class="nav-item">
+              <a class="nav-link text-white" routerLink="/addAssessment">Add New Assessment</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="#">Update Assessment</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="#">Delete Assessment</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="#">Package</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="#">Requests</a>
+      </li>
+    </ul>
+  </div>
+</div>
+ 

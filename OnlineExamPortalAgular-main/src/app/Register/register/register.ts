@@ -1,91 +1,9 @@
-// import { Component, OnInit } from '@angular/core';
-// import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-// import { User, RoleType } from '../../core/models/user.model';
-// import { AuthService } from '../register.service';
-// import { HttpClient, HttpClientModule } from '@angular/common/http';
 
-// @Component({
-//   selector: 'app-register',
-//   standalone: true,
-//   imports: [ReactiveFormsModule, HttpClientModule],
-//   providers: [AuthService],
-//   template: '<h3>Welcome</h3>',
-//   styleUrls: ['./register.css']
-// })
-// export class Register implements OnInit {
-//   // signupForm: FormGroup;
-  
-
-//   // constructor(private fb: FormBuilder, private authService: AuthService) {
-//   //   this.signupForm = this.fb.group({
-//   //     name: ['', [Validators.required, Validators.maxLength(50)]],
-//   //     email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]],
-//   //     password: ['', [Validators.required, Validators.maxLength(50)]],
-//   //     registrationDate: [new Date().toISOString(), Validators.required],
-//   //     roleType: [RoleType.Candidate, Validators.required]
-//   //   });
-//   // }
-
-//   // ngOnInit(): void {}
-
-//   // onSubmit(): void {
-//   //   if (this.signupForm.valid) {
-//   //     const user: User = this.signupForm.value;
-//   //     this.authService.register(user).subscribe({
-//   //       next: (res: any) => {
-//   //         console.log('Registration successful:', res);
-//   //         alert('User registered successfully!');
-//   //       },
-//   //       error: (err: any) => {
-//   //         console.error('Registration failed:', err);
-//   //         alert('Registration failed. Please try again.');
-//   //       }
-//   //     });
-//   //   } else {
-//   //     console.warn('Form is invalid');
-//   //   }
-//   //   console.log('Form Value:', this.signupForm.value);
-
-//   // }
-
-//   public getJsonValue: any;
-
-//     //   this.signupForm = this.fb.group({
-//   //     name: ['', [Validators.required, Validators.maxLength(50)]],
-//   //     email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]],
-//   //     password: ['', [Validators.required, Validators.maxLength(50)]],
-//   //     registrationDate: [new Date().toISOString(), Validators.required],
-//   //     roleType: [RoleType.Candidate, Validators.required]
-//   //   });
-
-//   constructor( private http: HttpClient ){}
-
-//   ngOnInit(): void {
-//     this.getMethod();
-//     this.postMethod();
-//   }
-//    public getMethod() {
-//     this.http.get('https://localhost:7201/api/Assessment/AllAssessments').subscribe((data)=>{
-//       console.log(data);
-//       this.getJsonValue = data;
-//     });
-
-//        }
-
-//        public postMethod() {
-//         this.http.post('https://localhost:7201/api/User/register',{}).subscribe((data)=>{
-//           console.log(data);
-//         });
-       
-//        }
-   
-//   image1 = './assets/register.jpg';
-// }
 
 import { Component } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { RoleType } from '../../core/models/user.model';
+
 import { RouterModule } from '@angular/router';
 
 @Component({

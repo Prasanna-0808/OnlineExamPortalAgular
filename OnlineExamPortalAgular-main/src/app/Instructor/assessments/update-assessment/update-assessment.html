@@ -1,0 +1,60 @@
+<a class="btn btn-outline-secondary mb-3" routerLink="/instructor-assessment">
+    ← Back to Assessments
+  </a>
+ 
+<div class="update-container">
+    <h2>Update Assessment</h2>
+    <form [formGroup]="assessmentForm" (ngSubmit)="submitForm()">
+      <div class="form-group">
+        <label>Title</label>
+        <input class="form-control" formControlName="title" />
+      </div>
+ 
+      <div class="form-group">
+        <label>Description</label>
+        <textarea class="form-control" formControlName="description"></textarea>
+      </div>
+ 
+      <div class="form-group">
+        <label>Type</label>
+        <select class="form-control" formControlName="assessmentType">
+          <option [value]="0">Quiz</option>
+          <option [value]="1">Assignment</option>
+          <option [value]="2">Interview</option>
+        </select>
+      </div>
+ 
+      <div class="form-group">
+        <label>Status</label>
+        <input class="form-control" formControlName="status" />
+      </div>
+ 
+      <div class="form-group">
+        <label>Scheduled Date</label>
+        <input type="datetime-local" class="form-control" formControlName="scheduledDate" />
+      </div>
+ 
+      <div class="form-group">
+        <label>End Time</label>
+        <input type="datetime-local" class="form-control" formControlName="endTime" />
+      </div>
+ 
+      <div class="form-group">
+        <label>Duration (min)</label>
+        <input type="number" class="form-control" formControlName="duration" />
+      </div>
+ 
+      <div class="form-group">
+        <label>Max Mark</label>
+        <input type="number" class="form-control" formControlName="maxMark" />
+      </div>
+ 
+      <div class="form-group">
+        <label>Pass Mark</label>
+        <input type="number" class="form-control" formControlName="passMark" />
+      </div>
+ 
+      <button class="btn btn-success" type="submit">Update</button>
+      <a class="btn btn-secondary ms-2" routerLink="/assessment">Cancel</a>
+    </form>
+  </div>

@@ -1,0 +1,57 @@
+<app-instructor></app-instructor>
+ 
+<div class="body">
+  <div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2>Assessments</h2>
+      <a class="btn btn-primary" routerLink="/create-assessment">New</a>
+    </div>
+ 
+    <table class="table table-bordered table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Type</th>
+          <th>Status</th>
+          <th>Scheduled Date</th>
+          <th>End Time</th>
+          <th>Duration (min)</th>
+          <th>Max Mark</th>
+          <th>Pass Mark</th>
+          <th class="text-center">Edit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let assessment of assessments">
+          <td>{{ assessment.assessmentId }}</td>
+          <td>{{ assessment.title }}</td>
+          <td>{{ assessment.description }}</td>
+          <td>{{ getAssessmentType(assessment.assessmentType) }}</td>
+          <td>{{ assessment.status }}</td>
+          <td>{{ assessment.scheduledDate | date:'short' }}</td>
+          <td>{{ assessment.endTime | date:'short' }}</td>
+          <td>{{ assessment.duration }}</td>
+          <td>{{ assessment.maxMark }}</td>
+          <td>{{ assessment.passMark }}</td>
+          <td class="text-center">
+           
+<button class="btn btn-warning btn-sm me-2" [routerLink]="['/update-assessment', assessment.assessmentId]">
+  <i class="bi bi-pencil-square"></i> Update
+</button>
+ 
+           
+           
+           
+<button class="btn btn-danger btn-sm" (click)="deleteAssessment(assessment.assessmentId)">
+  <i class="bi bi-trash"></i> Delete
+</button>
+ 
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+ 

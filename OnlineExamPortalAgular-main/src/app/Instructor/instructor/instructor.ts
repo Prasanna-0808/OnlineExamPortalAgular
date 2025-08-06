@@ -1,11 +1,19 @@
+import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
-
+import { RouterLink } from '@angular/router';
+ 
 @Component({
   selector: 'app-instructor',
-  imports: [],
+  standalone: true,
+  imports: [RouterLink,HttpClientModule],
   templateUrl: './instructor.html',
-  styleUrl: './instructor.css'
+  styleUrls: ['./instructor.css']
 })
 export class Instructor {
-
+  name: string = '';
+ 
+  constructor() {
+    this.name = localStorage.getItem('userName') || 'Instructor';
+  }
 }
+ 

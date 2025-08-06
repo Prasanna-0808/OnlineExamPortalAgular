@@ -1,0 +1,59 @@
+<a class="btn btn-outline-secondary mb-3" routerLink="/instructor-assessment">
+    ← Back to Assessments
+  </a>
+ 
+  <div class="card p-4 shadow-sm container">
+    <h3 class="mb-4">Create New Assessment</h3>
+    <form [formGroup]="assessmentForm" (ngSubmit)="submitForm()">
+      <div class="mb-3">
+        <label>Title</label>
+        <input class="form-control" formControlName="title" />
+      </div>
+ 
+      <div class="mb-3">
+        <label>Description</label>
+        <textarea class="form-control" formControlName="description"></textarea>
+      </div>
+ 
+      <div class="mb-3">
+        <label>Type</label>
+        <select class="form-select" formControlName="assessmentType">
+          <option [value]="0">Quiz</option>
+          <option [value]="1">Assignment</option>
+          <option [value]="2">Interview</option>
+        </select>
+      </div>
+ 
+      <div class="mb-3">
+        <label>Status</label>
+        <input class="form-control" formControlName="status" />
+      </div>
+ 
+      <div class="mb-3">
+        <label>Scheduled Date</label>
+        <input type="datetime-local" class="form-control" formControlName="scheduledDate" />
+      </div>
+ 
+      <div class="mb-3">
+        <label>End Time</label>
+        <input type="datetime-local" class="form-control" formControlName="endTime" />
+      </div>
+ 
+      <div class="mb-3">
+        <label>Duration (min)</label>
+        <input type="number" class="form-control" formControlName="duration" />
+      </div>
+ 
+      <div class="mb-3">
+        <label>Max Mark</label>
+        <input type="number" class="form-control" formControlName="maxMark" />
+      </div>
+ 
+      <div class="mb-3">
+        <label>Pass Mark</label>
+        <input type="number" class="form-control" formControlName="passMark" />
+      </div>
+ 
+      <button class="btn btn-success" type="submit">Create</button>
+    </form>
+  </div>
