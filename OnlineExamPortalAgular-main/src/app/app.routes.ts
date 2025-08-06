@@ -1,5 +1,6 @@
 import { Routes } from "@angular/router";
 import { DummyRefreshComponent } from "./Candidate/dashboard/dashboard/refresherdummy";
+import { authGuard } from "./shared/auth-guard";
 
 export const routes: Routes = [
   {
@@ -13,7 +14,8 @@ export const routes: Routes = [
   },
   {
     path: 'login',
-    loadComponent: () => import('./Login/login/login').then(m => m.Login)
+    loadComponent: () => import('./Login/login/login').then(m => m.Login),
+    
   },
   {
     path: 'register',
@@ -29,7 +31,8 @@ export const routes: Routes = [
   },
   {
     path: 'dashboard',
-    loadComponent: () => import('./Candidate/dashboard/dashboard/dashboard').then(m => m.Dashboard)
+    loadComponent: () => import('./Candidate/dashboard/dashboard/dashboard').then(m => m.Dashboard),
+    canActivate: [authGuard]
   },
   {
     path: 'refresh',
